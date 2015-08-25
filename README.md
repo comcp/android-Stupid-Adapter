@@ -1,0 +1,2 @@
+# android-Stupid-Adapter
+一个比较愚蠢的adapter,一切只是为了少写两行代码,将adapter从StupidMethod分离出来
