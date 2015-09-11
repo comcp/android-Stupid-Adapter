@@ -1,4 +1,4 @@
-package com.stupid.method.demo;
+package com.stupid.method.demo.activity;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,6 +12,9 @@ import com.stupid.method.adapter.OnClickItemListener;
 import com.stupid.method.adapter.OnLongClickItemListener;
 import com.stupid.method.adapter.XAdapter2;
 import com.stupid.method.app.XActivity;
+import com.stupid.method.demo.R;
+import com.stupid.method.demo.R.id;
+import com.stupid.method.demo.R.layout;
 import com.stupid.method.demo.bean.Joke;
 import com.stupid.method.demo.bean.Joke.Jokes;
 import com.stupid.method.demo.holder.JokeViewHolder;
@@ -46,6 +49,8 @@ public class ListDemoActivity extends XActivity implements OnClickItemListener,
 		adapter.setLongClickItemListener(this);// 设置item的长按事件;
 		listView = (AbsListView) findViewById(R.id.bton_listview);
 		listView.setAdapter(adapter);
+		listView.setOnScrollListener(adapter.getOnScrollListener(null));
+
 		swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swrefresh);
 		swipeRefreshLayout.setOnRefreshListener(this);
 		onRefresh();

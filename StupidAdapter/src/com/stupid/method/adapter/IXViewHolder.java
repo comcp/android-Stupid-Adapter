@@ -23,7 +23,7 @@ public interface IXViewHolder {
 
 	View getView();
 
-	View getView(Object data, int position);
+	View getView(Object data, int position, boolean onScrolling);
 
 	void onCreat(XAdapter adapter, Context context);
 

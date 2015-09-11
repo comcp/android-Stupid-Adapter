@@ -8,6 +8,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -26,6 +27,8 @@ public abstract class XAdapter<T> extends BaseAdapter {
 	protected Context context;
 	protected LayoutInflater inflater;
 	protected List<T> mData;
+
+	private boolean onScrolling = false;
 
 	public XAdapter(Context context, List<T> mData,
 			IXAdapter<T> adapterInterface) {
@@ -91,6 +94,10 @@ public abstract class XAdapter<T> extends BaseAdapter {
 		return mData;
 	}
 
+	public IPauseOnScroll getOnScrollListener(OnScrollListener l) {
+		return new IPauseOnScroll(this, l);
+	}
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (adapterInterface != null)
@@ -102,6 +109,17 @@ public abstract class XAdapter<T> extends BaseAdapter {
 			tv.setText("没有设置 ISuperAdapter");
 			return tv;
 		}
+	}
+
+	/**
+	 * @return the onScrolling
+	 */
+	public boolean isOnScrolling() {
+		return onScrolling;
+	}
+
+	public void pause() {
+		setOnScrolling(true);
 	}
 
 	public T remove(int location) {
@@ -125,6 +143,12 @@ public abstract class XAdapter<T> extends BaseAdapter {
 			return false;
 	}
 
+	public void resume() {
+		setOnScrolling(false);
+		notifyDataSetChanged();
+
+	}
+
 	public void setAdapterInterface(IXAdapter<T> adapterInterface) {
 		this.adapterInterface = adapterInterface;
 	}
@@ -132,6 +156,14 @@ public abstract class XAdapter<T> extends BaseAdapter {
 	public void setmData(List<T> mData) {
 		this.mData = mData;
 		this.notifyDataSetChanged();
+	}
+
+	/**
+	 * @param onScrolling
+	 *            the onScrolling to set
+	 */
+	public void setOnScrolling(boolean onScrolling) {
+		this.onScrolling = onScrolling;
 	}
 
 	/***
@@ -150,5 +182,4 @@ public abstract class XAdapter<T> extends BaseAdapter {
 		this.notifyDataSetChanged();
 
 	}
-
 }

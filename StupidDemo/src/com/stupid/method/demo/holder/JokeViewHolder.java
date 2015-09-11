@@ -24,8 +24,13 @@ public class JokeViewHolder extends XViewHolder<Joke> {
 
 	@Override
 	public void onResetView(Joke data, int position) {
-		tv1.setText(data.getTitle());
-		tv2.setText(data.getContent());
+		if (onScrolling) {
+			tv1.setText("¹ö¶¯ÖÐ....");
+			tv2.setText("Scrolling...");
+		} else {
+			tv1.setText(data.getTitle());
+			tv2.setText(data.getContent());
+		}
 	}
 
 }

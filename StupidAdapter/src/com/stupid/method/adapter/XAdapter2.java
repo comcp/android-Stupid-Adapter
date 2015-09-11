@@ -77,7 +77,8 @@ public class XAdapter2<T> extends XAdapter<T> implements IXAdapter<T> {
 			holder.onDestory(position, getCount());
 		}
 		if (holder != null)
-			return holder.getView(mData.get(position), position);
+			return holder.getView(mData.get(position), position,
+					isOnScrolling());
 		else
 			return super.getView(position, convertView, parent);
 	}

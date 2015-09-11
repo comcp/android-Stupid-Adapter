@@ -3,7 +3,7 @@
     android:id="@+id/swrefresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.stupid.method.demo.ListDemoActivity" >
+    tools:context="com.stupid.method.demo.activity.ListDemoActivity" >
 
     <ListView
         android:id="@+id/bton_listview"

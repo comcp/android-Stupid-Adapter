@@ -30,6 +30,7 @@ abstract public class XViewHolder<T> implements IXViewHolder, OnClickListener,
 	private OnLongClickItemListener longClickItemListener;
 	protected T mData;
 	protected View mRoot;
+	protected boolean onScrolling;
 	private int position;
 
 	public XViewHolder() {
@@ -53,7 +54,8 @@ abstract public class XViewHolder<T> implements IXViewHolder, OnClickListener,
 	}
 
 	@Override
-	public View getView(Object data, int position) {
+	public View getView(Object data, int position, boolean onScrolling) {
+		this.onScrolling = onScrolling;
 		this.position = position;
 		mRoot.setTag(this);
 		try {

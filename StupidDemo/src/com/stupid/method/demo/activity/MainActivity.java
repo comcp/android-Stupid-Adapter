@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.stupid.method.app.XActivity;
-import com.stupid.method.demo.ListDemoActivity;
 import com.stupid.method.demo.R;
 
 public class MainActivity extends XActivity implements OnClickListener {

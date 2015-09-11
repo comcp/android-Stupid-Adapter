@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ListDemoActivity"
+            android:name="com.stupid.method.demo.activity.ListDemoActivity"
             android:label="@string/title_activity_list_demo" >
         </activity>
     </application>
