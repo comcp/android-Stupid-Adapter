@@ -22,10 +22,10 @@ import android.widget.TextView;
  * 
  */
 public abstract class XAdapter<T> extends BaseAdapter {
-	protected List<T> mData;
 	protected IXAdapter<T> adapterInterface;
-	protected LayoutInflater inflater;
 	protected Context context;
+	protected LayoutInflater inflater;
+	protected List<T> mData;
 
 	public XAdapter(Context context, List<T> mData,
 			IXAdapter<T> adapterInterface) {
@@ -37,72 +37,6 @@ public abstract class XAdapter<T> extends BaseAdapter {
 		this.context = context;
 		inflater = LayoutInflater.from(context);
 
-	}
-
-	public List<T> getmData() {
-		return mData;
-	}
-
-	public IXAdapter<T> getAdapterInterface() {
-		return adapterInterface;
-	}
-
-	public void setmData(List<T> mData) {
-		this.mData = mData;
-		this.notifyDataSetChanged();
-	}
-
-	public void setAdapterInterface(IXAdapter<T> adapterInterface) {
-		this.adapterInterface = adapterInterface;
-	}
-
-	@Override
-	public int getCount() {
-
-		return mData == null ? 0 : mData.size();
-	}
-
-	@Override
-	public T getItem(int position) {
-
-		return position > -1 ? mData == null ? null : mData.get(position)
-				: null;
-	}
-
-	@Override
-	public long getItemId(int position) {
-
-		return position;
-	}
-
-	/***
-	 * 更新整个列表 <br>
-	 * 先删除列表内数据,再更新
-	 * */
-	public void upData(List<T> mData) {
-		if (mData == null) {
-			this.mData = mData;
-		} else {
-			this.mData.clear();
-			this.mData.addAll(mData);
-
-		}
-
-		this.notifyDataSetChanged();
-
-	}
-
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		if (adapterInterface != null)
-			return adapterInterface.convertView(position, convertView, parent,
-					mData, inflater);
-		else {
-			TextView tv = new TextView(context);
-			tv.setPadding(10, 10, 10, 10);
-			tv.setText("没有设置 ISuperAdapter");
-			return tv;
-		}
 	}
 
 	public XAdapter<T> add(int location, T object) {
@@ -130,6 +64,46 @@ public abstract class XAdapter<T> extends BaseAdapter {
 		return this;
 	}
 
+	public IXAdapter<T> getAdapterInterface() {
+		return adapterInterface;
+	}
+
+	@Override
+	public int getCount() {
+
+		return mData == null ? 0 : mData.size();
+	}
+
+	@Override
+	public T getItem(int position) {
+
+		return position > -1 ? mData == null ? null : mData.get(position)
+				: null;
+	}
+
+	@Override
+	public long getItemId(int position) {
+
+		return position;
+	}
+
+	public List<T> getmData() {
+		return mData;
+	}
+
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		if (adapterInterface != null)
+			return adapterInterface.convertView(position, convertView, parent,
+					mData, inflater);
+		else {
+			TextView tv = new TextView(context);
+			tv.setPadding(10, 10, 10, 10);
+			tv.setText("没有设置 ISuperAdapter");
+			return tv;
+		}
+	}
+
 	public T remove(int location) {
 		if (mData != null)
 			return mData.remove(location);
@@ -149,6 +123,32 @@ public abstract class XAdapter<T> extends BaseAdapter {
 			return mData.removeAll(collection);
 		else
 			return false;
+	}
+
+	public void setAdapterInterface(IXAdapter<T> adapterInterface) {
+		this.adapterInterface = adapterInterface;
+	}
+
+	public void setmData(List<T> mData) {
+		this.mData = mData;
+		this.notifyDataSetChanged();
+	}
+
+	/***
+	 * 更新整个列表 <br>
+	 * 先删除列表内数据,再更新
+	 * */
+	public void upData(List<T> mData) {
+		if (mData == null) {
+			this.mData = mData;
+		} else {
+			this.mData.clear();
+			this.mData.addAll(mData);
+
+		}
+
+		this.notifyDataSetChanged();
+
 	}
 
 }

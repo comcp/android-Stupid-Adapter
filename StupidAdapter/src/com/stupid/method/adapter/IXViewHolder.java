@@ -21,19 +21,19 @@ import android.view.View;
 public interface IXViewHolder {
 	int getLayoutId();
 
+	View getView();
+
+	View getView(Object data, int position);
+
 	void onCreat(XAdapter adapter, Context context);
+
+	void onDestory(int nextPosition, int count);
+
+	View setInflater(LayoutInflater inflater);
 
 	void setOnClickItemListener(OnClickItemListener itemListener);
 
 	void setOnLongClickItemListener(
 			OnLongClickItemListener longClickItemListener);
-
-	View getView(Object data, int position);
-
-	View getView();
-
-	View setInflater(LayoutInflater inflater);
-
-	void onDestory(int nextPosition, int count);
 
 }

@@ -27,9 +27,9 @@ import android.view.ViewGroup;
  * **/
 public class XAdapter2<T> extends XAdapter<T> implements IXAdapter<T> {
 	private static final String tag = "XAdapter2";
-	private Class<T> viewBean;
 	private OnClickItemListener clickItemListener;
 	private OnLongClickItemListener longClickItemListener;
+	private Class<T> viewBean;
 
 	public XAdapter2(Context context, List<T> mData,
 			Class<? extends IXViewHolder> xViewHolder) {

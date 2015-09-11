@@ -1,5 +1,6 @@
 package com.stupid.method.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,45 +24,18 @@ import android.view.View.OnLongClickListener;
  */
 abstract public class XViewHolder<T> implements IXViewHolder, OnClickListener,
 		OnLongClickListener {
-	protected View mRoot;
+	public static String tag = null;
 	protected LayoutInflater inflater;
 	private OnClickItemListener itemListener;
 	private OnLongClickItemListener longClickItemListener;
 	protected T mData;
+	protected View mRoot;
 	private int position;
 
-	@Override
-	public abstract int getLayoutId();
-
-	@Override
-	public void setOnClickItemListener(OnClickItemListener itemListener) {
-		this.itemListener = itemListener;
+	public XViewHolder() {
+		if (tag == null)
+			tag = this.getClass().getSimpleName();
 	}
-
-	@Override
-	public void setOnLongClickItemListener(
-			OnLongClickItemListener longClickItemListener) {
-		this.longClickItemListener = longClickItemListener;
-
-	}
-
-	public View getView(Object data, int position) {
-		this.position = position;
-		mRoot.setTag(this);
-		onResetView((T) data, position);
-		return mRoot;
-	}
-
-	public View getView() {
-		return mRoot;
-	}
-
-	protected void setData(T data) {
-		mData = data;
-
-	}
-
-	public abstract void onResetView(T data, int position);
 
 	protected View findViewById(int id) {
 		if (mRoot != null)
@@ -71,9 +45,27 @@ abstract public class XViewHolder<T> implements IXViewHolder, OnClickListener,
 	}
 
 	@Override
-	public View setInflater(LayoutInflater inflater) {
+	public abstract int getLayoutId();
 
-		mRoot = inflater.inflate(getLayoutId(), null);
+	@Override
+	public View getView() {
+		return mRoot;
+	}
+
+	@Override
+	public View getView(Object data, int position) {
+		this.position = position;
+		mRoot.setTag(this);
+		try {
+			// 会出现强制类型转换问题
+			onResetView((T) data, position);
+
+		} catch (Exception e) {
+
+			Log.e(tag, String.format("data类型:%s", data.getClass()));
+			Log.e(tag, this.getClass() + ".getView() 内的data类型不能进行强制转换", e);
+
+		}
 		return mRoot;
 	}
 
@@ -86,6 +78,13 @@ abstract public class XViewHolder<T> implements IXViewHolder, OnClickListener,
 	}
 
 	@Override
+	public void onDestory(int nextPosition, int count) {
+
+		// System.out.println(String.format("Now:%d  Next:%d  ", position,
+		// nextPosition));
+	}
+
+	@Override
 	public boolean onLongClick(View v) {
 		if (longClickItemListener != null) {
 			return longClickItemListener.onLongClickItem(v, position);
@@ -93,10 +92,40 @@ abstract public class XViewHolder<T> implements IXViewHolder, OnClickListener,
 			return false;
 	}
 
-	@Override
-	public void onDestory(int nextPosition, int count) {
+	public abstract void onResetView(T data, int position);
 
-//		System.out.println(String.format("Now:%d  Next:%d  ", position,
-//				nextPosition));
+	protected void setData(T data) {
+
+		mData = data;
+
+	}
+
+	@Override
+	public View setInflater(LayoutInflater inflater) {
+
+		mRoot = inflater.inflate(getLayoutId(), null);
+		return mRoot;
+	}
+
+	@Override
+	public void setOnClickItemListener(OnClickItemListener itemListener) {
+		this.itemListener = itemListener;
+	}
+
+	public void setOnClickListener(OnClickListener l) {
+		if (mRoot != null)
+			mRoot.setOnClickListener(l);
+	}
+
+	@Override
+	public void setOnLongClickItemListener(
+			OnLongClickItemListener longClickItemListener) {
+		this.longClickItemListener = longClickItemListener;
+
+	}
+
+	public void setOnLongClickListener(OnLongClickListener l) {
+		if (mRoot != null)
+			mRoot.setOnLongClickListener(l);
 	}
 }
