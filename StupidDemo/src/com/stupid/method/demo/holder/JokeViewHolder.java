@@ -11,7 +11,7 @@ import com.stupid.method.demo.bean.Joke;
 public class JokeViewHolder extends XViewHolder<Joke> {
 	TextView tv1, tv2;
 
-	public void onCreat(XAdapter adapter, Context context) {
+	public void onCreate(XAdapter adapter, Context context) {
 
 		tv1 = (TextView) findViewById(R.id.textView1);
 		tv2 = (TextView) findViewById(R.id.textView2);

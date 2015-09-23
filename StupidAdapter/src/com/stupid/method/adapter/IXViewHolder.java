@@ -9,7 +9,7 @@ import android.view.View;
  * 
  * 1. {@link #setInflater(LayoutInflater)}<br>
  * 2. {@link #getLayoutId()}<br>
- * 3. {@link #onCreat(XAdapter, android.content.Context)}<br>
+ * 3. {@link #onCreate(XAdapter, android.content.Context)}<br>
  * 4. 如果已实例化该类,会先调用onDestiny();<br>
  * 5. {@link #getView(Object, int)}<br>
  * ----------- <br>
@@ -25,7 +25,7 @@ public interface IXViewHolder {
 
 	View getView(Object data, int position, boolean onScrolling);
 
-	void onCreat(XAdapter adapter, Context context);
+	void onCreate(XAdapter adapter, Context context);
 
 	void onDestory(int nextPosition, int count);
 

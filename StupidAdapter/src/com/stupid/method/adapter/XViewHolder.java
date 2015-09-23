@@ -8,7 +8,7 @@ import android.view.View.OnLongClickListener;
 
 /**
  * @说明： 执行顺序 {@link XViewHolder#getLayoutId()}
- *      {@link XViewHolder#onCreat(XAdapter, android.content.Context)}
+ *      {@link XViewHolder#onCreate(XAdapter, android.content.Context)}
  *      {@link XViewHolder#onDestory(int)}
  *      {@link XViewHolder#onResetView(Object, int)}
  * 

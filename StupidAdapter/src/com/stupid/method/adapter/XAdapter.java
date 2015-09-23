@@ -2,7 +2,9 @@ package com.stupid.method.adapter;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -22,11 +24,83 @@ import android.widget.TextView;
  * @创建时间：2014-12-3上午11:21:31
  * 
  */
-public abstract class XAdapter<T> extends BaseAdapter {
+public abstract class XAdapter<T> extends BaseAdapter implements Collection<T> {
 	protected IXAdapter<T> adapterInterface;
 	protected Context context;
 	protected LayoutInflater inflater;
 	protected List<T> mData;
+
+	public boolean addAll(int location, Collection<? extends T> collection) {
+		return mData.addAll(location, collection);
+	}
+
+	public boolean contains(Object object) {
+		return mData.contains(object);
+	}
+
+	public boolean containsAll(Collection<?> collection) {
+		return mData.containsAll(collection);
+	}
+
+	public boolean equals(Object object) {
+		return mData.equals(object);
+	}
+
+	public T get(int location) {
+		return mData.get(location);
+	}
+
+	public int hashCode() {
+		return mData.hashCode();
+	}
+
+	public int indexOf(Object object) {
+		return mData.indexOf(object);
+	}
+
+	public boolean isEmpty() {
+		return mData.isEmpty();
+	}
+
+	public Iterator<T> iterator() {
+		return mData.iterator();
+	}
+
+	public int lastIndexOf(Object object) {
+		return mData.lastIndexOf(object);
+	}
+
+	public ListIterator<T> listIterator() {
+		return mData.listIterator();
+	}
+
+	public ListIterator<T> listIterator(int location) {
+		return mData.listIterator(location);
+	}
+
+	public boolean retainAll(Collection<?> collection) {
+		return mData.retainAll(collection);
+	}
+
+	public T set(int location, T object) {
+		return mData.set(location, object);
+	}
+
+	public int size() {
+		return mData.size();
+	}
+
+	public List<T> subList(int start, int end) {
+		return mData.subList(start, end);
+	}
+
+	public Object[] toArray() {
+		return mData.toArray();
+	}
+
+	public <T> T[] toArray(T[] array) {
+		return mData.toArray(array);
+	}
 
 	private boolean onScrolling = false;
 
@@ -62,9 +136,8 @@ public abstract class XAdapter<T> extends BaseAdapter {
 			return false;
 	}
 
-	public XAdapter<T> clear() {
+	public void clear() {
 		mData.clear();
-		return this;
 	}
 
 	public IXAdapter<T> getAdapterInterface() {
