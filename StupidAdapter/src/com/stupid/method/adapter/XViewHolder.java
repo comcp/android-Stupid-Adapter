@@ -1,10 +1,14 @@
 package com.stupid.method.adapter;
 
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
 import android.view.View.OnLongClickListener;
+import android.view.View.OnTouchListener;
 
 /**
  * @说明： 执行顺序 {@link XViewHolder#getLayoutId()}
@@ -24,12 +28,52 @@ import android.view.View.OnLongClickListener;
  */
 abstract public class XViewHolder<T> implements IXViewHolder, OnClickListener,
 		OnLongClickListener {
+	public void setOnKeyListener(OnKeyListener l) {
+		mRoot.setOnKeyListener(l);
+	}
+
+	public void setOnTouchListener(OnTouchListener l) {
+		mRoot.setOnTouchListener(l);
+	}
+
+	public void setLongClickable(boolean longClickable) {
+		mRoot.setLongClickable(longClickable);
+	}
+
+	public void setBackgroundColor(int color) {
+		mRoot.setBackgroundColor(color);
+	}
+
+	public void setBackgroundResource(int resid) {
+		mRoot.setBackgroundResource(resid);
+	}
+
+	public void setBackgroundDrawable(Drawable d) {
+		mRoot.setBackgroundDrawable(d);
+	}
+
 	public static String tag = null;
 	protected LayoutInflater inflater;
 	private OnClickItemListener itemListener;
 	private OnLongClickItemListener longClickItemListener;
 	protected T mData;
 	protected View mRoot;
+	public boolean post(Runnable action) {
+		return mRoot.post(action);
+	}
+
+	public Resources getResources() {
+		return mRoot.getResources();
+	}
+
+	public void setTag(Object tag) {
+		mRoot.setTag(tag);
+	}
+
+	public void setTag(int key, Object tag) {
+		mRoot.setTag(key, tag);
+	}
+
 	protected boolean onScrolling;
 	private int position;
 
