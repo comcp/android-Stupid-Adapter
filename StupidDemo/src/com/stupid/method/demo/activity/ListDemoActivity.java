@@ -14,6 +14,7 @@ import com.stupid.method.demo.R;
 import com.stupid.method.demo.bean.Joke;
 import com.stupid.method.demo.bean.Joke.Jokes;
 import com.stupid.method.demo.holder.JokeViewHolder;
+import com.stupid.method.util.JsonUtils;
 
 public class ListDemoActivity extends BaseActivity implements
 		OnClickItemListener, OnLongClickItemListener, OnRefreshListener {
@@ -58,7 +59,12 @@ public class ListDemoActivity extends BaseActivity implements
 			int statusCode) {
 		super.onServerResult(resultCode, data, state, statusCode);
 		swipeRefreshLayout.setRefreshing(false);
-		Jokes jokes = JSON.parseObject(data, Jokes.class);
+
+		Jokes jokes = JsonUtils.parseObject(data, Jokes.class);
+		if (null == jokes) {
+			showToast("服务器数据异常");
+			return;
+		}
 		adapter.addAll(jokes.getJokes());
 		adapter.notifyDataSetChanged();
 	}
