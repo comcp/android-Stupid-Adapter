@@ -5,19 +5,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import com.stupid.method.app.XActivity;
 import com.stupid.method.demo.R;
 
-public class MainActivity extends XActivity implements OnClickListener {
+public class MainActivity extends BaseActivity implements OnClickListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-	}
-
-	public int getLayoutId() {
-		return 0;
 	}
 
 	public void onClick(View v) {

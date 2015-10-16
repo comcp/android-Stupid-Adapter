@@ -7,20 +7,16 @@ import android.view.View;
 import android.widget.AbsListView;
 
 import com.alibaba.fastjson.JSON;
-import com.androidquery.callback.AjaxStatus;
 import com.stupid.method.adapter.OnClickItemListener;
 import com.stupid.method.adapter.OnLongClickItemListener;
 import com.stupid.method.adapter.XAdapter2;
-import com.stupid.method.app.XActivity;
 import com.stupid.method.demo.R;
-import com.stupid.method.demo.R.id;
-import com.stupid.method.demo.R.layout;
 import com.stupid.method.demo.bean.Joke;
 import com.stupid.method.demo.bean.Joke.Jokes;
 import com.stupid.method.demo.holder.JokeViewHolder;
 
-public class ListDemoActivity extends XActivity implements OnClickItemListener,
-		OnLongClickItemListener, OnRefreshListener {
+public class ListDemoActivity extends BaseActivity implements
+		OnClickItemListener, OnLongClickItemListener, OnRefreshListener {
 
 	public static final String LIST_TYPE_INT = "LIST_TYPE_INT";
 	public static final int type_list_view = 1;
@@ -58,15 +54,13 @@ public class ListDemoActivity extends XActivity implements OnClickItemListener,
 	}
 
 	@Override
-	public void callback(String url, String callback_data, AjaxStatus status,
-			int CallBack_id) {
-
-		super.callback(url, callback_data, status, CallBack_id);
+	public void onServerResult(int resultCode, String data, boolean state,
+			int statusCode) {
+		super.onServerResult(resultCode, data, state, statusCode);
 		swipeRefreshLayout.setRefreshing(false);
-		Jokes jokes = JSON.parseObject(callback_data, Jokes.class);
+		Jokes jokes = JSON.parseObject(data, Jokes.class);
 		adapter.addAll(jokes.getJokes());
 		adapter.notifyDataSetChanged();
-
 	}
 
 	public int getLayoutId() {
@@ -83,7 +77,8 @@ public class ListDemoActivity extends XActivity implements OnClickItemListener,
 	}
 
 	public void onRefresh() {
-		ajax(50, "http://xiaohua.hao.360.cn/m/itxt?page=1", null);
+		getHttp().get(50, "http://xiaohua.hao.360.cn/m/itxt?page=1", this);
+
 	}
 
 }
