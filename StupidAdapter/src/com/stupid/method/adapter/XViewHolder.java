@@ -29,8 +29,6 @@ import android.view.View.OnTouchListener;
 abstract public class XViewHolder<T> implements IXViewHolder<T>,
 		OnClickListener, OnLongClickListener {
 
-	public String tag = null;
-
 	protected LayoutInflater inflater;
 
 	private OnClickItemListener itemListener;
@@ -42,7 +40,9 @@ abstract public class XViewHolder<T> implements IXViewHolder<T>,
 	protected View mRoot;
 
 	private boolean onScrolling;
+
 	private int position;
+	public String tag = null;
 
 	public XViewHolder() {
 		if (tag == null)
@@ -58,6 +58,10 @@ abstract public class XViewHolder<T> implements IXViewHolder<T>,
 
 	@Override
 	public abstract int getLayoutId();
+
+	public int getPosition() {
+		return position;
+	}
 
 	public Resources getResources() {
 		return mRoot.getResources();
@@ -83,6 +87,10 @@ abstract public class XViewHolder<T> implements IXViewHolder<T>,
 
 		}
 		return mRoot;
+	}
+
+	public boolean isOnScrolling() {
+		return onScrolling;
 	}
 
 	@Override
@@ -170,8 +178,16 @@ abstract public class XViewHolder<T> implements IXViewHolder<T>,
 			mRoot.setOnLongClickListener(l);
 	}
 
+	public void setOnScrolling(boolean onScrolling) {
+		this.onScrolling = onScrolling;
+	}
+
 	public void setOnTouchListener(OnTouchListener l) {
 		mRoot.setOnTouchListener(l);
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
 	}
 
 	public void setTag(int key, Object tag) {
@@ -180,21 +196,5 @@ abstract public class XViewHolder<T> implements IXViewHolder<T>,
 
 	public void setTag(Object tag) {
 		mRoot.setTag(tag);
-	}
-
-	public boolean isOnScrolling() {
-		return onScrolling;
-	}
-
-	public void setOnScrolling(boolean onScrolling) {
-		this.onScrolling = onScrolling;
-	}
-
-	public int getPosition() {
-		return position;
-	}
-
-	public void setPosition(int position) {
-		this.position = position;
 	}
 }

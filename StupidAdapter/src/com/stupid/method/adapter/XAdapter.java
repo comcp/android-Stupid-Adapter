@@ -25,82 +25,11 @@ import android.widget.TextView;
  * 
  */
 public abstract class XAdapter<T> extends BaseAdapter implements Collection<T> {
-	protected IXAdapter<T> adapterInterface;
+	protected IXAdapter<T> adapter;
 	protected Context context;
 	protected LayoutInflater inflater;
 	protected List<T> mData;
-
-	public boolean addAll(int location, Collection<? extends T> collection) {
-		return mData.addAll(location, collection);
-	}
-
-	public boolean contains(Object object) {
-		return mData.contains(object);
-	}
-
-	public boolean containsAll(Collection<?> collection) {
-		return mData.containsAll(collection);
-	}
-
-	public boolean equals(Object object) {
-		return mData.equals(object);
-	}
-
-	public T get(int location) {
-		return mData.get(location);
-	}
-
-	public int hashCode() {
-		return mData.hashCode();
-	}
-
-	public int indexOf(Object object) {
-		return mData.indexOf(object);
-	}
-
-	public boolean isEmpty() {
-		return mData.isEmpty();
-	}
-
-	public Iterator<T> iterator() {
-		return mData.iterator();
-	}
-
-	public int lastIndexOf(Object object) {
-		return mData.lastIndexOf(object);
-	}
-
-	public ListIterator<T> listIterator() {
-		return mData.listIterator();
-	}
-
-	public ListIterator<T> listIterator(int location) {
-		return mData.listIterator(location);
-	}
-
-	public boolean retainAll(Collection<?> collection) {
-		return mData.retainAll(collection);
-	}
-
-	public T set(int location, T object) {
-		return mData.set(location, object);
-	}
-
-	public int size() {
-		return mData.size();
-	}
-
-	public List<T> subList(int start, int end) {
-		return mData.subList(start, end);
-	}
-
-	public Object[] toArray() {
-		return mData.toArray();
-	}
-
-	public <T> T[] toArray(T[] array) {
-		return mData.toArray(array);
-	}
+	private IXDataListener onDataChang;
 
 	private boolean onScrolling = false;
 
@@ -110,7 +39,7 @@ public abstract class XAdapter<T> extends BaseAdapter implements Collection<T> {
 		if (this.mData == null) {
 			this.mData = new ArrayList<T>();
 		}
-		this.adapterInterface = adapterInterface;
+		this.adapter = adapterInterface;
 		this.context = context;
 		inflater = LayoutInflater.from(context);
 
@@ -136,12 +65,32 @@ public abstract class XAdapter<T> extends BaseAdapter implements Collection<T> {
 			return false;
 	}
 
+	public boolean addAll(int location, Collection<? extends T> collection) {
+		return mData.addAll(location, collection);
+	}
+
 	public void clear() {
 		mData.clear();
 	}
 
+	public boolean contains(Object object) {
+		return mData.contains(object);
+	}
+
+	public boolean containsAll(Collection<?> collection) {
+		return mData.containsAll(collection);
+	}
+
+	public boolean equals(Object object) {
+		return mData.equals(object);
+	}
+
+	public T get(int location) {
+		return mData.get(location);
+	}
+
 	public IXAdapter<T> getAdapterInterface() {
-		return adapterInterface;
+		return adapter;
 	}
 
 	@Override
@@ -167,15 +116,19 @@ public abstract class XAdapter<T> extends BaseAdapter implements Collection<T> {
 		return mData;
 	}
 
+	public IXDataListener getOnDataChang() {
+		return onDataChang;
+	}
+
 	public IPauseOnScroll getOnScrollListener(OnScrollListener l) {
 		return new IPauseOnScroll(this, l);
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		if (adapterInterface != null)
-			return adapterInterface.convertView(position, convertView, parent,
-					mData, inflater);
+		if (adapter != null)
+			return adapter.convertView(position, convertView, parent, mData,
+					inflater);
 		else {
 			TextView tv = new TextView(context);
 			tv.setPadding(10, 10, 10, 10);
@@ -184,11 +137,59 @@ public abstract class XAdapter<T> extends BaseAdapter implements Collection<T> {
 		}
 	}
 
+	public int hashCode() {
+		return mData.hashCode();
+	}
+
+	public int indexOf(Object object) {
+		return mData.indexOf(object);
+	}
+
+	public boolean isEmpty() {
+		return mData.isEmpty();
+	}
+
 	/**
 	 * @return the onScrolling
 	 */
 	public boolean isOnScrolling() {
 		return onScrolling;
+	}
+
+	public Iterator<T> iterator() {
+		return mData.iterator();
+	}
+
+	public int lastIndexOf(Object object) {
+		return mData.lastIndexOf(object);
+	}
+
+	public ListIterator<T> listIterator() {
+		return mData.listIterator();
+	}
+
+	public ListIterator<T> listIterator(int location) {
+		return mData.listIterator(location);
+	}
+
+	@Override
+	public void notifyDataSetChanged() {
+		onDataChange();
+		super.notifyDataSetChanged();
+	}
+
+	@Override
+	public void notifyDataSetInvalidated() {
+		onDataChange();
+		super.notifyDataSetInvalidated();
+	}
+
+	private void onDataChange() {
+		if (onDataChang != null)
+			if (getCount() == 0)
+				onDataChang.onDataEmpty();
+			else
+				onDataChang.onDataChange();
 	}
 
 	public void pause() {
@@ -222,13 +223,26 @@ public abstract class XAdapter<T> extends BaseAdapter implements Collection<T> {
 
 	}
 
+	public boolean retainAll(Collection<?> collection) {
+		return mData.retainAll(collection);
+	}
+
+	public T set(int location, T object) {
+		return mData.set(location, object);
+	}
+
 	public void setAdapterInterface(IXAdapter<T> adapterInterface) {
-		this.adapterInterface = adapterInterface;
+		this.adapter = adapterInterface;
 	}
 
 	public void setmData(List<T> mData) {
 		this.mData = mData;
 		this.notifyDataSetChanged();
+	}
+
+	public void setOnDataChang(IXDataListener onDataChang) {
+		this.onDataChang = onDataChang;
+		onDataChange();
 	}
 
 	/**
@@ -237,6 +251,22 @@ public abstract class XAdapter<T> extends BaseAdapter implements Collection<T> {
 	 */
 	public void setOnScrolling(boolean onScrolling) {
 		this.onScrolling = onScrolling;
+	}
+
+	public int size() {
+		return mData.size();
+	}
+
+	public List<T> subList(int start, int end) {
+		return mData.subList(start, end);
+	}
+
+	public Object[] toArray() {
+		return mData.toArray();
+	}
+
+	public <T> T[] toArray(T[] array) {
+		return mData.toArray(array);
 	}
 
 	/***
@@ -255,4 +285,5 @@ public abstract class XAdapter<T> extends BaseAdapter implements Collection<T> {
 		this.notifyDataSetChanged();
 
 	}
+
 }
