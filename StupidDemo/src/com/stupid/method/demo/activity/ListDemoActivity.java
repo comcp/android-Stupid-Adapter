@@ -6,14 +6,16 @@ import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.View;
 import android.widget.AbsListView;
 
-import com.alibaba.fastjson.JSON;
 import com.stupid.method.adapter.OnClickItemListener;
 import com.stupid.method.adapter.OnLongClickItemListener;
 import com.stupid.method.adapter.XAdapter2;
 import com.stupid.method.demo.R;
+import com.stupid.method.demo.bean.IqiyiRoot;
 import com.stupid.method.demo.bean.Joke;
 import com.stupid.method.demo.bean.Joke.Jokes;
+import com.stupid.method.demo.bean.Vlist;
 import com.stupid.method.demo.holder.JokeViewHolder;
+import com.stupid.method.demo.holder.VlistViewHolder;
 import com.stupid.method.util.JsonUtils;
 
 public class ListDemoActivity extends BaseActivity implements
@@ -24,7 +26,7 @@ public class ListDemoActivity extends BaseActivity implements
 	public static final int type_grid_view = 2;
 	AbsListView listView;
 	public int type = 0;
-	XAdapter2<Joke> adapter;
+	XAdapter2<Vlist> adapter;
 	android.support.v4.widget.SwipeRefreshLayout swipeRefreshLayout;
 
 	@Override
@@ -36,12 +38,14 @@ public class ListDemoActivity extends BaseActivity implements
 
 		case type_grid_view:
 			setContentView(R.layout.activity_grid_demo);
+			VlistViewHolder.type = R.layout.vlist_view_holder2;
 			break;
 		default:
 		case type_list_view:
 			setContentView(R.layout.activity_list_demo);
+			VlistViewHolder.type = R.layout.vlist_view_holder;
 		}
-		adapter = new XAdapter2<Joke>(this, null, JokeViewHolder.class);
+		adapter = new XAdapter2<Vlist>(this, null, VlistViewHolder.class);
 		adapter.setClickItemListener(this);// 设置item的点击事件;
 		adapter.setLongClickItemListener(this);// 设置item的长按事件;
 		listView = (AbsListView) findViewById(R.id.bton_listview);
@@ -60,12 +64,19 @@ public class ListDemoActivity extends BaseActivity implements
 		super.onServerResult(resultCode, data, state, statusCode);
 		swipeRefreshLayout.setRefreshing(false);
 
-		Jokes jokes = JsonUtils.parseObject(data, Jokes.class);
-		if (null == jokes) {
-			showToast("服务器数据异常");
-			return;
+		IqiyiRoot root = JsonUtils.parseObject(
+				data.replace("var tvInfoJs=", ""), IqiyiRoot.class);
+		if (null == root) {
+			showToast("服务器异常");
+
 		}
-		adapter.addAll(jokes.getJokes());
+
+		// Jokes jokes = JsonUtils.parseObject(data, Jokes.class);
+		// if (null == jokes) {
+		// showToast("服务器数据异常");
+		// return;
+		// }
+		adapter.addAll(root.getData().getVlist());
 		adapter.notifyDataSetChanged();
 	}
 
@@ -83,7 +94,8 @@ public class ListDemoActivity extends BaseActivity implements
 	}
 
 	public void onRefresh() {
-		getHttp().get(50, "http://xiaohua.hao.360.cn/m/itxt?page=1", this);
+		getHttp().get(50, "http://cache.video.iqiyi.com/jp/avlist/202861101/",
+				this);
 
 	}
 
