@@ -1,5 +1,6 @@
 package com.stupid.method.adapter;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -29,6 +30,8 @@ import android.view.View.OnTouchListener;
 abstract public class XViewHolder<T> implements IXViewHolder<T>,
 		OnClickListener, OnLongClickListener {
 
+	protected Context context;
+
 	protected LayoutInflater inflater;
 
 	private OnClickItemListener itemListener;
@@ -38,7 +41,6 @@ abstract public class XViewHolder<T> implements IXViewHolder<T>,
 	protected T mData;
 
 	protected View mRoot;
-
 	private boolean onScrolling;
 
 	private int position;
@@ -142,8 +144,14 @@ abstract public class XViewHolder<T> implements IXViewHolder<T>,
 
 	@Override
 	public View setInflater(LayoutInflater inflater) {
+		this.inflater = inflater;
+		this.context = inflater.getContext();
 
-		mRoot = inflater.inflate(getLayoutId(), null);
+		if (mRoot == null)
+			mRoot = getView();// 如果返回不为null,则使用该view
+		if (mRoot == null)
+			mRoot = inflater.inflate(getLayoutId(), null);
+
 		return mRoot;
 	}
 
