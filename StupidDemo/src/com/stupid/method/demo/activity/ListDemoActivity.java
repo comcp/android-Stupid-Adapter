@@ -3,18 +3,19 @@ package com.stupid.method.demo.activity;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.TextView;
 
+import com.stupid.method.adapter.IXDataListener;
 import com.stupid.method.adapter.OnClickItemListener;
 import com.stupid.method.adapter.OnLongClickItemListener;
 import com.stupid.method.adapter.XAdapter2;
 import com.stupid.method.demo.R;
 import com.stupid.method.demo.bean.IqiyiRoot;
-import com.stupid.method.demo.bean.Joke;
-import com.stupid.method.demo.bean.Joke.Jokes;
 import com.stupid.method.demo.bean.Vlist;
-import com.stupid.method.demo.holder.JokeViewHolder;
 import com.stupid.method.demo.holder.VlistViewHolder;
 import com.stupid.method.util.JsonUtils;
 
@@ -46,15 +47,39 @@ public class ListDemoActivity extends BaseActivity implements
 			VlistViewHolder.type = R.layout.vlist_view_holder;
 		}
 		adapter = new XAdapter2<Vlist>(this, null, VlistViewHolder.class);
-		adapter.setClickItemListener(this);// ÉèÖÃitemµÄµã»÷ÊÂ¼ş;
-		adapter.setLongClickItemListener(this);// ÉèÖÃitemµÄ³¤°´ÊÂ¼ş;
+		adapter.setClickItemListener(this);// è®¾ç½®itemçš„ç‚¹å‡»äº‹ä»¶;
+		adapter.setLongClickItemListener(this);// è®¾ç½®itemçš„é•¿æŒ‰äº‹ä»¶;
+		adapter.setOnDataChang(new IXDataListener() {
+
+			TextView textView = new TextView(getBaseContext());
+			{
+				textView.setGravity(Gravity.CENTER);
+				textView.setText("æ²¡æœ‰æ•°æ®");
+				ViewGroup v = (ViewGroup) findViewById(getLayoutId());
+				v.addView(textView, 0);
+			}
+
+			@Override
+			public void onDataEmpty() {
+
+				textView.setVisibility(View.VISIBLE);
+
+			}
+
+			@Override
+			public void onDataChange() {
+				if (textView.getVisibility() == View.VISIBLE)
+					textView.setVisibility(View.GONE);
+			}
+		});
+
 		listView = (AbsListView) findViewById(R.id.bton_listview);
 		listView.setAdapter(adapter);
 		listView.setOnScrollListener(adapter.getOnScrollListener(null));
 
 		swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swrefresh);
 		swipeRefreshLayout.setOnRefreshListener(this);
-		onRefresh();
+		// onRefresh();
 
 	}
 
@@ -67,29 +92,27 @@ public class ListDemoActivity extends BaseActivity implements
 		IqiyiRoot root = JsonUtils.parseObject(
 				data.replace("var tvInfoJs=", ""), IqiyiRoot.class);
 		if (null == root) {
-			showToast("·şÎñÆ÷Òì³£");
+			showToast("æœåŠ¡å™¨å¼‚å¸¸");
 
 		}
 
 		// Jokes jokes = JsonUtils.parseObject(data, Jokes.class);
 		// if (null == jokes) {
-		// showToast("·şÎñÆ÷Êı¾İÒì³£");
+		// showToast("æœåŠ¡å™¨æ•°æ®å¼‚å¸¸");
 		// return;
 		// }
 		adapter.addAll(root.getData().getVlist());
-		adapter.notifyDataSetChanged();
-	}
-
-	public int getLayoutId() {
-		return 0;
+		adapter.notifyDataSetInvalidated();
 	}
 
 	public void onClickItem(View v, int p) {
-		showToast("µã»÷:" + p);
+
+		showToast("ç‚¹å‡»:" + p);
+
 	}
 
 	public boolean onLongClickItem(View v, int p) {
-		showToast("³¤°´:" + p);
+		showToast("é•¿æŒ‰:" + p);
 		return true;
 	}
 

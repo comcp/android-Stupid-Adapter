@@ -29,6 +29,8 @@ public class VlistViewHolder extends XViewHolder<Vlist> {
 		vt = (TextView) findViewById(R.id.vt);
 		imageView1 = (ImageView) findViewById(R.id.imageView1);
 		q = new AQuery(imageView1);
+		setOnClickListener(this);
+		setOnLongClickListener(this);
 
 	}
 
