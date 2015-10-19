@@ -69,6 +69,22 @@ abstract public class XViewHolder<T> implements IXViewHolder<T>,
 		return mRoot.getResources();
 	}
 
+	/**
+	 * 如果用户要用代码创建View,重写getView();
+	 * 
+	 * <pre>
+	 * &#064;Override
+	 * public View getView() {
+	 * 
+	 * 	if (super.getView() == null) {
+	 * 		mRoot = new View(context);
+	 * 	}
+	 * 
+	 * 	return super.getView();
+	 * }
+	 * 
+	 * </pre>
+	 **/
 	@Override
 	public View getView() {
 		return mRoot;
