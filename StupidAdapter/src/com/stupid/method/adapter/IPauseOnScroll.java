@@ -41,7 +41,7 @@ final class IPauseOnScroll implements OnScrollListener {
 			adapter.resume();
 			break;
 		case OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-			adapter.pause();
+			// adapter.pause();
 
 			break;
 		case OnScrollListener.SCROLL_STATE_FLING:

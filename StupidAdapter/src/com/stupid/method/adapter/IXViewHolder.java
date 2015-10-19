@@ -18,14 +18,14 @@ import android.view.View;
  * [4,5,6]会重复执行
  * 
  * **/
-public interface IXViewHolder {
+public interface IXViewHolder<T> {
 	int getLayoutId();
 
 	View getView();
 
 	View getView(Object data, int position, boolean onScrolling);
 
-	void onCreate(XAdapter adapter, Context context);
+	void onCreate(XAdapter<T> adapter, Context context);
 
 	void onDestory(int nextPosition, int count);
 

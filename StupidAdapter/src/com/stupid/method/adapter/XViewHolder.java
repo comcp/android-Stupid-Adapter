@@ -26,55 +26,22 @@ import android.view.View.OnTouchListener;
  * @创建时间：2014-12-3上午11:21:31
  * 
  */
-abstract public class XViewHolder<T> implements IXViewHolder, OnClickListener,
-		OnLongClickListener {
-	public void setOnKeyListener(OnKeyListener l) {
-		mRoot.setOnKeyListener(l);
-	}
+abstract public class XViewHolder<T> implements IXViewHolder<T>,
+		OnClickListener, OnLongClickListener {
 
-	public void setOnTouchListener(OnTouchListener l) {
-		mRoot.setOnTouchListener(l);
-	}
+	public String tag = null;
 
-	public void setLongClickable(boolean longClickable) {
-		mRoot.setLongClickable(longClickable);
-	}
-
-	public void setBackgroundColor(int color) {
-		mRoot.setBackgroundColor(color);
-	}
-
-	public void setBackgroundResource(int resid) {
-		mRoot.setBackgroundResource(resid);
-	}
-
-	public void setBackgroundDrawable(Drawable d) {
-		mRoot.setBackgroundDrawable(d);
-	}
-
-	public static String tag = null;
 	protected LayoutInflater inflater;
+
 	private OnClickItemListener itemListener;
+
 	private OnLongClickItemListener longClickItemListener;
+
 	protected T mData;
+
 	protected View mRoot;
-	public boolean post(Runnable action) {
-		return mRoot.post(action);
-	}
 
-	public Resources getResources() {
-		return mRoot.getResources();
-	}
-
-	public void setTag(Object tag) {
-		mRoot.setTag(tag);
-	}
-
-	public void setTag(int key, Object tag) {
-		mRoot.setTag(key, tag);
-	}
-
-	protected boolean onScrolling;
+	private boolean onScrolling;
 	private int position;
 
 	public XViewHolder() {
@@ -92,6 +59,10 @@ abstract public class XViewHolder<T> implements IXViewHolder, OnClickListener,
 	@Override
 	public abstract int getLayoutId();
 
+	public Resources getResources() {
+		return mRoot.getResources();
+	}
+
 	@Override
 	public View getView() {
 		return mRoot;
@@ -99,13 +70,12 @@ abstract public class XViewHolder<T> implements IXViewHolder, OnClickListener,
 
 	@Override
 	public View getView(Object data, int position, boolean onScrolling) {
-		this.onScrolling = onScrolling;
-		this.position = position;
+		this.setOnScrolling(onScrolling);
+		this.setPosition(position);
 		mRoot.setTag(this);
 		try {
 			// 会出现强制类型转换问题
 			onResetView((T) data, position);
-
 		} catch (Exception e) {
 
 			Log.e(tag, String.format("data类型:%s", data.getClass()));
@@ -118,7 +88,7 @@ abstract public class XViewHolder<T> implements IXViewHolder, OnClickListener,
 	@Override
 	public void onClick(View v) {
 		if (itemListener != null) {
-			itemListener.onClickItem(v, position);
+			itemListener.onClickItem(v, getPosition());
 		}
 
 	}
@@ -133,12 +103,28 @@ abstract public class XViewHolder<T> implements IXViewHolder, OnClickListener,
 	@Override
 	public boolean onLongClick(View v) {
 		if (longClickItemListener != null) {
-			return longClickItemListener.onLongClickItem(v, position);
+			return longClickItemListener.onLongClickItem(v, getPosition());
 		} else
 			return false;
 	}
 
 	public abstract void onResetView(T data, int position);
+
+	public boolean post(Runnable action) {
+		return mRoot.post(action);
+	}
+
+	public void setBackgroundColor(int color) {
+		mRoot.setBackgroundColor(color);
+	}
+
+	public void setBackgroundDrawable(Drawable d) {
+		mRoot.setBackgroundDrawable(d);
+	}
+
+	public void setBackgroundResource(int resid) {
+		mRoot.setBackgroundResource(resid);
+	}
 
 	protected void setData(T data) {
 
@@ -153,6 +139,10 @@ abstract public class XViewHolder<T> implements IXViewHolder, OnClickListener,
 		return mRoot;
 	}
 
+	public void setLongClickable(boolean longClickable) {
+		mRoot.setLongClickable(longClickable);
+	}
+
 	@Override
 	public void setOnClickItemListener(OnClickItemListener itemListener) {
 		this.itemListener = itemListener;
@@ -161,6 +151,11 @@ abstract public class XViewHolder<T> implements IXViewHolder, OnClickListener,
 	public void setOnClickListener(OnClickListener l) {
 		if (mRoot != null)
 			mRoot.setOnClickListener(l);
+	}
+
+	public void setOnKeyListener(OnKeyListener l) {
+		mRoot.setOnKeyListener(l);
+
 	}
 
 	@Override
@@ -173,5 +168,33 @@ abstract public class XViewHolder<T> implements IXViewHolder, OnClickListener,
 	public void setOnLongClickListener(OnLongClickListener l) {
 		if (mRoot != null)
 			mRoot.setOnLongClickListener(l);
+	}
+
+	public void setOnTouchListener(OnTouchListener l) {
+		mRoot.setOnTouchListener(l);
+	}
+
+	public void setTag(int key, Object tag) {
+		mRoot.setTag(key, tag);
+	}
+
+	public void setTag(Object tag) {
+		mRoot.setTag(tag);
+	}
+
+	public boolean isOnScrolling() {
+		return onScrolling;
+	}
+
+	public void setOnScrolling(boolean onScrolling) {
+		this.onScrolling = onScrolling;
+	}
+
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
 	}
 }
