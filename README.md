@@ -9,7 +9,7 @@ wiki 已经写好.....
 
 未来打算多创建几个XViewHolder 用来实现像,item侧滑动删除拉,什么的.....
 
-Welcome to the android-Stupid-Adapter wiki!
+#wiki
 
 
 1.XAdapter2
