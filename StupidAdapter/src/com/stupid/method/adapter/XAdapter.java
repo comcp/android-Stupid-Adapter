@@ -218,8 +218,10 @@ public abstract class XAdapter<T> extends BaseAdapter implements Collection<T> {
 	}
 
 	public void resume() {
-		setOnScrolling(false);
-		notifyDataSetChanged();
+		if (isOnScrolling()) {// 如果已经滚动停止,就别刷新列表了
+			setOnScrolling(false);
+			notifyDataSetChanged();
+		}
 
 	}
 
