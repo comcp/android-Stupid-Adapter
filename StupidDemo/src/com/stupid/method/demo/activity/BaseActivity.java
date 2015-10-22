@@ -1,9 +1,9 @@
 package com.stupid.method.demo.activity;
 
 import com.stupid.method.app.XActivity;
-import com.stupid.method.util.http.IXHttp;
-import com.stupid.method.util.http.aquery.AQueryHttp;
-import com.stupid.method.util.http.impl.XHttp;
+import com.stupid.method.http.IXHttp;
+import com.stupid.method.http.aquery.AQueryHttp;
+import com.stupid.method.http.impl.XHttp;
 
 public class BaseActivity extends XActivity {
 	public static IXHttp http;
