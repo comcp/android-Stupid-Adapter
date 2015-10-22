@@ -79,7 +79,7 @@ public class ListDemoActivity extends BaseActivity implements
 
 		swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swrefresh);
 		swipeRefreshLayout.setOnRefreshListener(this);
-		// onRefresh();
+		onRefresh();
 
 	}
 
