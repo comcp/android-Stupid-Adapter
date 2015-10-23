@@ -6,7 +6,6 @@ import android.widget.TextView;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.ImageOptions;
-import com.stupid.method.adapter.XAdapter;
 import com.stupid.method.adapter.XViewHolder;
 import com.stupid.method.demo.R;
 import com.stupid.method.demo.bean.Vlist;
@@ -23,7 +22,7 @@ public class VlistViewHolder extends XViewHolder<Vlist> {
 	}
 
 	@Override
-	public void onCreate(XAdapter<Vlist> adapter, Context context) {
+	public void onCreate(Context context) {
 
 		title = (TextView) findViewById(R.id.title);
 		vt = (TextView) findViewById(R.id.vt);

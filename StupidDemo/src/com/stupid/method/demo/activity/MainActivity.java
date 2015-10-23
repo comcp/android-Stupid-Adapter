@@ -19,6 +19,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 		switch (v.getId()) {
 		case R.id.bton_linnrlayout:
+			startActivity(new Intent(this, RecylerActivity.class));
 			break;
 		case R.id.bton_listview:
 			startActivity(new Intent(this, ListDemoActivity.class));

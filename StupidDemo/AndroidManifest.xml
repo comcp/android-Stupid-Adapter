@@ -25,8 +25,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.stupid.method.demo.activity.ListDemoActivity"
+            android:name=".activity.ListDemoActivity"
             android:label="@string/title_activity_list_demo" >
+        </activity>
+        <activity
+            android:name="com.stupid.method.demo.activity.RecylerActivity"
+            android:label="@string/title_activity_recyler" >
         </activity>
     </application>
 
