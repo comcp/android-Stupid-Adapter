@@ -23,9 +23,9 @@ public interface IXViewHolder<T> {
 
 	View getView();
 
-	View getView(Object data, int position, boolean onScrolling);
+	View getView(T data, int position, boolean onScrolling);
 
-	void onCreate(XAdapter<T> adapter, Context context);
+	void onCreate(Context context);
 
 	void onDestory(int nextPosition, int count);
 

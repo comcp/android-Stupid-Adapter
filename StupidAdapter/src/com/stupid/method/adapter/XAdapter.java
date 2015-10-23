@@ -14,6 +14,8 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.stupid.method.adapter.IPauseOnScroll.IXPauseListener;
+
 /**
  * @说明 懒惰使人进步
  * 
@@ -24,7 +26,8 @@ import android.widget.TextView;
  * @创建时间：2014-12-3上午11:21:31
  * 
  */
-public abstract class XAdapter<T> extends BaseAdapter implements Collection<T> {
+public abstract class XAdapter<T> extends BaseAdapter implements Collection<T>,
+		IXPauseListener {
 	protected IXAdapter<T> adapter;
 	protected Context context;
 	protected LayoutInflater inflater;
@@ -192,7 +195,7 @@ public abstract class XAdapter<T> extends BaseAdapter implements Collection<T> {
 				onDataChang.onDataChange();
 	}
 
-	public void pause() {
+	public void onPause() {
 		setOnScrolling(true);
 	}
 
@@ -217,7 +220,7 @@ public abstract class XAdapter<T> extends BaseAdapter implements Collection<T> {
 			return false;
 	}
 
-	public void resume() {
+	public void onResume() {
 		if (isOnScrolling()) {// 如果已经滚动停止,就别刷新列表了
 			setOnScrolling(false);
 			notifyDataSetChanged();

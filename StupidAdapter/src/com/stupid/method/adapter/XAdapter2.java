@@ -58,7 +58,7 @@ public class XAdapter2<T> extends XAdapter<T> implements IXAdapter<T> {
 				try {
 					holder = (IXViewHolder) viewBean.newInstance();
 					holder.setInflater(inflater);
-					holder.onCreate(this, context);
+					holder.onCreate(context);
 					holder.setOnClickItemListener(this.clickItemListener);
 					holder.setOnLongClickItemListener(longClickItemListener);
 				} catch (InstantiationException e) {

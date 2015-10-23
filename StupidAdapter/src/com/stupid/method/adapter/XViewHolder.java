@@ -3,6 +3,7 @@ package com.stupid.method.adapter;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -91,13 +92,13 @@ abstract public class XViewHolder<T> implements IXViewHolder<T>,
 	}
 
 	@Override
-	public View getView(Object data, int position, boolean onScrolling) {
+	public View getView(T data, int position, boolean onScrolling) {
 		this.setOnScrolling(onScrolling);
 		this.setPosition(position);
 		mRoot.setTag(this);
 		try {
 			// 会出现强制类型转换问题
-			onResetView((T) data, position);
+			onResetView(data, position);
 		} catch (Exception e) {
 
 			Log.e(tag, String.format("data类型:%s", data.getClass()));
@@ -132,6 +133,11 @@ abstract public class XViewHolder<T> implements IXViewHolder<T>,
 			return longClickItemListener.onLongClickItem(v, getPosition());
 		} else
 			return false;
+	}
+
+	public final XViewHolder<T> setView(View v) {
+		mRoot = v;
+		return this;
 	}
 
 	public abstract void onResetView(T data, int position);
@@ -221,4 +227,12 @@ abstract public class XViewHolder<T> implements IXViewHolder<T>,
 	public void setTag(Object tag) {
 		mRoot.setTag(tag);
 	}
+
+	public ViewHolder getViewHolder() {
+		setTag(this);
+		return new ViewHolder(getView()) {
+
+		};
+	}
+
 }
