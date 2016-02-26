@@ -177,14 +177,14 @@ public abstract class XAdapter<T> extends BaseAdapter implements Collection<T>,
 
 	@Override
 	public void notifyDataSetChanged() {
-		onDataChange();
 		super.notifyDataSetChanged();
+		onDataChange();
 	}
 
 	@Override
 	public void notifyDataSetInvalidated() {
-		onDataChange();
 		super.notifyDataSetInvalidated();
+		onDataChange();
 	}
 
 	private void onDataChange() {

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import android.support.v7.widget.RecyclerView.Adapter;
+import android.support.v7.widget.RecyclerView.AdapterDataObserver;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.Log;
@@ -22,6 +23,29 @@ public class XRecylerAdapter<T> extends Adapter<ViewHolder> implements
 	Class<? extends XViewHolder<T>> cls;
 	private OnClickItemListener clickItemListener;
 	private boolean onScrolling = false;
+	private IXDataListener onDataChang;
+
+	public IXDataListener getOnDataChang() {
+		return onDataChang;
+	}
+
+	{
+		registerAdapterDataObserver(new AdapterDataObserver() {
+			@Override
+			public void onChanged() {
+				super.onChanged();
+				onDataChange();
+			}
+		});
+	}
+
+	private void onDataChange() {
+		if (getOnDataChang() != null)
+			if (getItemCount() == 0)
+				getOnDataChang().onDataEmpty();
+			else
+				getOnDataChang().onDataChange();
+	}
 
 	public void add(int location, T object) {
 		mData.add(location, object);
@@ -137,7 +161,7 @@ public class XRecylerAdapter<T> extends Adapter<ViewHolder> implements
 	@Override
 	public int getItemCount() {
 
-		return mData.size();
+		return mData == null ? 0 : mData.size();
 	}
 
 	@Override
@@ -227,6 +251,10 @@ public class XRecylerAdapter<T> extends Adapter<ViewHolder> implements
 
 	public void setOnScrolling(boolean onScrolling) {
 		this.onScrolling = onScrolling;
+	}
+
+	public void setOnDataChang(IXDataListener onDataChang) {
+		this.onDataChang = onDataChang;
 	}
 
 }

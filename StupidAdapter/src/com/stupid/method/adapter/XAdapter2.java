@@ -32,7 +32,7 @@ public class XAdapter2<T> extends XAdapter<T> implements IXAdapter<T> {
 	private Class<T> viewBean;
 
 	public XAdapter2(Context context, List<T> mData,
-			Class<? extends IXViewHolder> xViewHolder) {
+			Class<? extends IXViewHolder<T>> xViewHolder) {
 		super(context, mData, null);
 		super.setAdapterInterface(this);
 
