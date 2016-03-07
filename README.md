@@ -1,11 +1,16 @@
 # android-Stupid-Adapter
-一个比较愚蠢的adapter,一切只是为了少写两行代码,将adapter从StupidMethod分离出来
-
+一个比较愚蠢的adapter,一切只是为了少写两行代码,
+将adapter从StupidMethod分离出来
 继承自baseadapter.还有一些功能还没实现.平时开发也没用上,就没深究
+
+主要使用反射,将viewholder,与 adapter分开,
+将viewholder 当做是一个单独的画面来看待,
+每个listview无需重写adapter,只需写一个viewHolder,即可实现数据与view的绑定
+使开发更简单更便捷...
 
 wiki 已经写好.....
 
-欢迎大家挑bug......
+欢迎大家挑bug......如果有人用的话.
 
 未来打算多创建几个XViewHolder 用来实现像,item侧滑动删除拉,什么的.....
 
