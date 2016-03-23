@@ -12,7 +12,7 @@ import com.stupid.method.demo.R;
 import com.stupid.method.demo.bean.IqiyiRoot;
 import com.stupid.method.demo.bean.Vlist;
 import com.stupid.method.demo.holder.VlistViewHolder;
-import com.stupid.method.util.JsonUtils;
+import com.stupid.method.demo.util.JsonUtils;
 
 public class RecylerActivity extends BaseActivity {
 

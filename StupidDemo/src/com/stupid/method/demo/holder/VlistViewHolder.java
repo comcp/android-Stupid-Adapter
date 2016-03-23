@@ -44,11 +44,10 @@ public class VlistViewHolder extends XViewHolder<Vlist> {
 		if (isOnScrolling()) {
 			q.image(R.drawable.ic_launcher);
 		} else {
-
+			vt.setText(data.getVt());
+			title.setText(data.getShortTitle());
 			q.image(data.getVpic(), options);
 		}
-		vt.setText(data.getVt());
-		title.setText(data.getShortTitle());
 
 	}
 
