@@ -65,7 +65,7 @@ wiki 已经写好.....
 		当adapter开始 getView 时
 		判断IXViewHolder是否创建,
 		
-		未创建
+		if 未创建
 		
 			开始创建IXViewHolder,
 			1.实例化IXViewHolder
@@ -74,7 +74,7 @@ wiki 已经写好.....
 			4.(只执行一次)调用 (2) setOnClickItemListener
 			5.(只执行一次)调用 (3) setOnLongClickItemListener
 		
-		已创建(循环执行)
+		else 已创建(循环执行)
 			
 			1.(7) onDestory(position, getCount());
 			2.(5) getView(object, position);
