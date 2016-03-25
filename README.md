@@ -1,5 +1,5 @@
 # android-Stupid-Adapter
-一个比较愚蠢的adapter,一切只是为了少写两行代码,
+一个比较蠢的adapter,一切只是为了少写两行代码,
 支持listview,gridView, recyclerview, 的adapter,  
 开发者只需要关注 item View  和 数据的关系,业务逻辑.剩下的一切交给我
 
