@@ -173,7 +173,6 @@ public class XRecylerAdapter<T> extends Adapter<ViewHolder> implements
 			holder.setView(vh.itemView).getView(mData.get(position), position,
 					isOnScrolling());
 		}
-		System.out.println("onBindViewHolder:");
 
 	}
 
@@ -205,7 +204,6 @@ public class XRecylerAdapter<T> extends Adapter<ViewHolder> implements
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			}
-			System.out.println("create:");
 			if (holder != null)
 				return holder.getViewHolder();
 

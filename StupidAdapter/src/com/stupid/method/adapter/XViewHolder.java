@@ -100,7 +100,6 @@ abstract public class XViewHolder<T> implements IXViewHolder<T>,
 			// 会出现强制类型转换问题
 			onResetView(data, position);
 		} catch (Exception e) {
-
 			Log.e(tag, String.format("data类型:%s", data.getClass()));
 			Log.e(tag, this.getClass() + ".getView() 内的data类型不能进行强制转换", e);
 
@@ -123,8 +122,6 @@ abstract public class XViewHolder<T> implements IXViewHolder<T>,
 	@Override
 	public void onDestory(int nextPosition, int count) {
 
-		// System.out.println(String.format("Now:%d  Next:%d  ", position,
-		// nextPosition));
 	}
 
 	@Override
@@ -228,11 +225,14 @@ abstract public class XViewHolder<T> implements IXViewHolder<T>,
 		mRoot.setTag(tag);
 	}
 
+	ViewHolder v7viewHolder;
+
 	public ViewHolder getViewHolder() {
 		setTag(this);
-		return new ViewHolder(getView()) {
-
-		};
+		if (v7viewHolder == null)
+			v7viewHolder = new ViewHolder(getView()) {
+			};
+		return v7viewHolder;
 	}
 
 }
