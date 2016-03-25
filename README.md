@@ -1,15 +1,13 @@
 # android-Stupid-Adapter
-一个比较愚蠢的adapter,一切只是为了少写两行代码,
+一个比较蠢的adapter,一切只是为了少写两行代码,
 支持listview,gridView, recyclerview, 的adapter,  
 开发者只需要关注 item View  和 数据的关系,业务逻辑.剩下的一切交给我
 
-将adapter从StupidMethod分离出来
-继承自baseadapter.还有一些功能还没实现.平时开发也没用上,就没深究
+将viewholder,与 adapter分开,每个absListview 不需要创建一个对应的adapter 类,
+只需要创建一个xAdapter 对象, 和一个viewHolder类 继承 xViewHolder<T> 然后实现里面的方法
 
-主要使用反射,将viewholder,与 adapter分开,
-将viewholder 当做是一个单独的画面来看待,
-每个listview无需重写adapter,只需写一个viewHolder,即可实现数据与view的绑定
-使开发更简单更便捷...
+XAdapter 继承自baseadapter.还有一些功能还没实现.平时开发也没用上,就没深究
+
 
 wiki 已经写好.....
 
