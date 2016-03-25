@@ -1,5 +1,7 @@
 package com.stupid.method.demo.activity;
 
+import java.util.Date;
+
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
@@ -33,6 +35,7 @@ public class ListDemoActivity extends BaseActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		if (getIntent() != null)
 			type = getIntent().getIntExtra(LIST_TYPE_INT, 0);
 		switch (type) {

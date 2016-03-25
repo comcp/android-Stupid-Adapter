@@ -29,8 +29,12 @@
             android:label="@string/title_activity_list_demo" >
         </activity>
         <activity
-            android:name="com.stupid.method.demo.activity.RecylerActivity"
+            android:name=".activity.RecylerActivity"
             android:label="@string/title_activity_recyler" >
+        </activity>
+        <activity
+            android:name="com.stupid.method.demo.activity.ListActivity"
+            android:label="@string/title_activity_list" >
         </activity>
     </application>
 

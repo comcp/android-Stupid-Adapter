@@ -62,4 +62,20 @@ public class RecylerActivity extends BaseActivity {
 		adapter.notifyDataSetChanged();
 	}
 
+	{
+
+		/**
+		 * 就是这个应用程序从SDCard获取文书，
+		 * 
+		 * 如果获取不到就弹出对话框文件找不到，
+		 * 
+		 * 但是如果在6.0的设备上，
+		 * 
+		 * 可以将访问SDCard的权限关闭掉，
+		 * 
+		 * 如果关闭权限就提示没有权限
+		 */
+
+	}
+
 }
