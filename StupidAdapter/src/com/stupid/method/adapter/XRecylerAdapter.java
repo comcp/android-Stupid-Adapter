@@ -206,8 +206,9 @@ public class XRecylerAdapter<T> extends Adapter<ViewHolder> implements
 				e.printStackTrace();
 			}
 			System.out.println("create:");
+			if (holder != null)
+				return holder.getViewHolder();
 
-			return holder.getViewHolder();
 		} else {
 			Log.e(tag, "没有设置 IXViewHolder ");
 		}
