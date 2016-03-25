@@ -99,6 +99,10 @@ abstract public class XViewHolder<T> implements IXViewHolder<T>,
 		try {
 			// 会出现强制类型转换问题
 			onResetView(data, position);
+		} catch (NullPointerException e) {
+			Log.e(tag, String.format("在[%s]发生空指针异常", this.getClass()
+					.getSimpleName()), e);
+
 		} catch (Exception e) {
 			Log.e(tag, String.format("data类型:%s", data.getClass()));
 			Log.e(tag, this.getClass() + ".getView() 内的data类型不能进行强制转换", e);

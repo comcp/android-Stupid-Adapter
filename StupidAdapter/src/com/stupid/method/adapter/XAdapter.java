@@ -38,6 +38,8 @@ public abstract class XAdapter<T> extends BaseAdapter implements Collection<T>,
 
 	public XAdapter(Context context, List<T> mData,
 			IXAdapter<T> adapterInterface) {
+		if (context == null)
+			throw new NullPointerException("XAdapter 构造函数的 Context 不能为空");
 		this.mData = mData;
 		if (this.mData == null) {
 			this.mData = new ArrayList<T>();

@@ -29,34 +29,51 @@ public class XAdapter2<T> extends XAdapter<T> implements IXAdapter<T> {
 	private static final String tag = "XAdapter2";
 	private OnClickItemListener clickItemListener;
 	private OnLongClickItemListener longClickItemListener;
-	private Class<T> viewBean;
+	private Class<? extends IXViewHolder<T>> viewBean;
 
 	public XAdapter2(Context context, List<T> mData,
 			Class<? extends IXViewHolder<T>> xViewHolder) {
 		super(context, mData, null);
 		super.setAdapterInterface(this);
+		if (xViewHolder == null)
+			throw new NullPointerException(
+					"XAdapter2(context,List,Class) :最后一个参数 class 不能为空");
+		this.viewBean = xViewHolder;
 
-		try {
-			this.viewBean = (Class<T>) Class.forName(xViewHolder.getName());
-		} catch (ClassNotFoundException e) {
-			this.viewBean = null;
-			e.printStackTrace();
+	}
 
-		}
+	public XAdapter2(Context context,
+			Class<? extends IXViewHolder<T>> xViewHolder) {
+		this(context, null, xViewHolder);
+	}
 
+	/**
+	 * 增加String 载入class,
+	 * 
+	 * 可以通过 配置文件动态载入不同viewHolder
+	 * 
+	 * 好像是没什么卵用.
+	 * 
+	 * **/
+	@SuppressWarnings("unchecked")
+	public XAdapter2(Context context, String className)
+			throws ClassNotFoundException {
+		this(context, null, (Class<? extends IXViewHolder<T>>) Class
+				.forName(className));
 	}
 
 	@Override
 	public View convertView(int position, View convertView, ViewGroup parent,
 			List<T> mData, LayoutInflater inflater) {
-		IXViewHolder holder = null;
+		IXViewHolder<T> holder = null;
 
-		if (convertView == null) {
+		if (convertView == null
+				|| !(convertView.getTag() instanceof IXViewHolder)) {
 
 			if (viewBean != null) {
 
 				try {
-					holder = (IXViewHolder) viewBean.newInstance();
+					holder = (IXViewHolder<T>) viewBean.newInstance();
 					holder.setInflater(inflater);
 					holder.onCreate(context);
 					holder.setOnClickItemListener(this.clickItemListener);
@@ -73,7 +90,7 @@ public class XAdapter2<T> extends XAdapter<T> implements IXAdapter<T> {
 			}
 
 		} else {
-			holder = (IXViewHolder) convertView.getTag();
+			holder = (IXViewHolder<T>) convertView.getTag();
 			holder.onDestory(position, getCount());
 		}
 		if (holder != null)
