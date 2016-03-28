@@ -107,7 +107,8 @@ abstract public class XViewHolder<T> implements IXViewHolder<T>,
 			throw e;
 		} catch (ClassCastException e) {
 			Log.e(tag, String.format("在[%s] 发生类型转换异常->数据类型[%s] 无法转换成 泛型类型[%s]",
-					data == null ? "null" : data.getClass(), getEntityClass()));
+					tag, data == null ? "null" : data.getClass(),
+					getEntityClass()));
 			throw e;
 		}
 		return mRoot;
