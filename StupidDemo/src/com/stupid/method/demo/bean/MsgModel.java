@@ -6,42 +6,47 @@ import android.support.annotation.IntDef;
 
 public class MsgModel implements Serializable {
 
-	public static final int type_sender = 1, type_receive = 2, type_system = 3;
+	public static final int type_sender = 1, type_receive = 2, type_system = 3,
+			type_news = 4;
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@IntDef({ type_sender, type_receive, type_system })
+	@IntDef({ type_sender, type_receive, type_system, type_news })
 	public @interface type {
 
 	}
 
 	int type;
 	String msg;
+	private String headUrl;
 
 	public int getType() {
 		return type;
 	}
 
-	public void setType(@type int type) {
+	public MsgModel setType(@type int type) {
 		this.type = type;
+		return this;
 	}
 
 	public String getMsg() {
 		return msg;
 	}
 
-	public void setMsg(String msg) {
+	public MsgModel setMsg(String msg) {
 		this.msg = msg;
+		return this;
 	}
 
 	public int getHead() {
 		return head;
 	}
 
-	public void setHead(int head) {
+	public MsgModel setHead(int head) {
 		this.head = head;
+		return this;
 	}
 
 	int head;
@@ -53,6 +58,15 @@ public class MsgModel implements Serializable {
 		m.setMsg(msg);
 		return m;
 
+	}
+
+	public String getHeadUrl() {
+		return headUrl;
+	}
+
+	public MsgModel setHeadUrl(String headUrl) {
+		this.headUrl = headUrl;
+		return this;
 	}
 
 }
