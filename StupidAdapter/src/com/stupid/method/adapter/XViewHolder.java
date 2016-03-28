@@ -1,5 +1,8 @@
 package com.stupid.method.adapter;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -23,9 +26,12 @@ import android.view.View.OnTouchListener;
  * 
  * @author comcp@126.com <br>
  *         github: https://github.com/comcp/android-StupidMethod
- * @version v1.6
+ * @version v1.7
  * 
  * @创建时间：2014-12-3上午11:21:31
+ * 
+ * 
+ *                           增加异常抛出,不再拦截异常
  * 
  */
 abstract public class XViewHolder<T> implements IXViewHolder<T>,
@@ -38,6 +44,7 @@ abstract public class XViewHolder<T> implements IXViewHolder<T>,
 	private OnClickItemListener itemListener;
 
 	private OnLongClickItemListener longClickItemListener;
+	protected Class<T> entityClass;
 
 	protected T mData;
 
@@ -45,12 +52,7 @@ abstract public class XViewHolder<T> implements IXViewHolder<T>,
 	private boolean onScrolling;
 
 	private int position;
-	public String tag = null;
-
-	public XViewHolder() {
-		if (tag == null)
-			tag = this.getClass().getSimpleName();
-	}
+	public String tag = this.getClass().getSimpleName();
 
 	protected View findViewById(int id) {
 		if (mRoot != null)
@@ -100,13 +102,13 @@ abstract public class XViewHolder<T> implements IXViewHolder<T>,
 			// 会出现强制类型转换问题
 			onResetView(data, position);
 		} catch (NullPointerException e) {
-			Log.e(tag, String.format("在[%s]发生空指针异常", this.getClass()
-					.getSimpleName()), e);
-
-		} catch (Exception e) {
-			Log.e(tag, String.format("data类型:%s", data.getClass()));
-			Log.e(tag, this.getClass() + ".getView() 内的data类型不能进行强制转换", e);
-
+			Log.e(tag, String.format("在[%s]发生空指针异常,数据[%s],position[%d]", tag,
+					data == null ? "null" : data.toString(), position));
+			throw e;
+		} catch (ClassCastException e) {
+			Log.e(tag, String.format("在[%s] 发生类型转换异常->数据类型[%s] 无法转换成 泛型类型[%s]",
+					data == null ? "null" : data.getClass(), getEntityClass()));
+			throw e;
 		}
 		return mRoot;
 	}
@@ -172,9 +174,18 @@ abstract public class XViewHolder<T> implements IXViewHolder<T>,
 
 		if (mRoot == null)
 			mRoot = getView();// 如果返回不为null,则使用该view
-		if (mRoot == null)
-			mRoot = inflater.inflate(getLayoutId(), null);
+		if (mRoot == null) {
 
+			mRoot = inflater.inflate(getLayoutId(), null);
+			if (mRoot == null) {
+				Log.e(tag,
+						String.format(
+								"[%s]类未实现getLayoutId(),或者传递进来的layout id 是错误的,当前获得到的layoutId为[%d]",
+								getClass(), getLayoutId()));
+				throw new NullPointerException(
+						"通过 getLayoutId() 无法 inflate layout");
+			}
+		}
 		return mRoot;
 	}
 
@@ -239,4 +250,17 @@ abstract public class XViewHolder<T> implements IXViewHolder<T>,
 		return v7viewHolder;
 	}
 
+	protected Class<T> getEntityClass() {
+		if (entityClass == null) {
+			ParameterizedType type = (ParameterizedType) getClass()
+					.getGenericSuperclass();
+
+			Type[] t = type.getActualTypeArguments();
+			if (t.length > 0)
+				entityClass = (Class<T>) t[0];
+			else
+				Log.w(tag, "无法获得泛型类型");
+		}
+		return entityClass;
+	}
 }
