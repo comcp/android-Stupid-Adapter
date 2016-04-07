@@ -13,7 +13,7 @@ import com.stupid.method.demo.R;
 import com.stupid.method.demo.bean.MsgModel;
 import com.stupid.method.demo.holder.MsgViewHodler;
 
-public class ListActivity extends Activity {
+public class ListActivity extends Activity implements OnClickItemListener {
 	ListView listView1;
 
 	XAdapter2<MsgModel> adapter;
@@ -46,37 +46,36 @@ public class ListActivity extends Activity {
 		adapter.add(MsgModel.newInstance(0, 4, "系统消息"));
 		TextView head = new TextView(this);
 		head.setText("listview头");
+		head.setPadding(10, 10, 10, 10);
 		listView1.addHeaderView(head);
 		listView1.setAdapter(adapter);
-		adapter.setClickItemListener(new OnClickItemListener() {
+		adapter.setClickItemListener(this);
+	}
 
-			@Override
-			public void onClickItem(View v, int position) {
-				String msg = "";
-				switch (v.getId()) {
-				case R.id.sen_messg:
-					msg = String.format("点击的是我的[消息]第[%d]条", position);
-					break;
-				case R.id.sen_headImg:
-					msg = String.format("点击的是我的[头像]第[%d]条", position);
+	@Override
+	public void onClickItem(View v, int position) {
+		String msg = "";
+		switch (v.getId()) {
+		case R.id.sen_messg:
+			msg = String.format("点击的是我的[消息]第[%d]条", position);
+			break;
+		case R.id.sen_headImg:
+			msg = String.format("点击的是我的[头像]第[%d]条", position);
 
-					break;
-				case R.id.rec_messg:
-					msg = String.format("点击的是对方的[消息]第[%d]条", position);
-					break;
-				case R.id.rec_headImg:
-					msg = String.format("点击的是对方的[头像]第[%d]条", position);
+			break;
+		case R.id.rec_messg:
+			msg = String.format("点击的是对方的[消息]第[%d]条", position);
+			break;
+		case R.id.rec_headImg:
+			msg = String.format("点击的是对方的[头像]第[%d]条", position);
 
-					break;
+			break;
 
-				default:
-					msg = String.format("点击的是根节点,第[%d]条", position);
-					break;
-				}
-				Toast.makeText(getBaseContext(), msg, Toast.LENGTH_SHORT)
-						.show();
+		default:
+			msg = String.format("点击的是根节点,第[%d]条", position);
+			break;
+		}
+		Toast.makeText(getBaseContext(), msg, Toast.LENGTH_SHORT).show();
 
-			}
-		});
 	}
 }
