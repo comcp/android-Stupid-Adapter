@@ -1,6 +1,5 @@
 package com.stupid.method.adapter;
 
-import android.support.v7.widget.RecyclerView;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 
@@ -16,9 +15,9 @@ import android.widget.AbsListView.OnScrollListener;
  * 
  * @创建时间：2015-9-11
  * **/
-final class IPauseOnScroll extends
-		android.support.v7.widget.RecyclerView.OnScrollListener implements
-		OnScrollListener {
+class IPauseOnScroll
+// extends android.support.v7.widget.RecyclerView.OnScrollListener
+		implements OnScrollListener {
 	interface IXPauseListener {
 		void onResume();
 
@@ -27,46 +26,49 @@ final class IPauseOnScroll extends
 
 	IXPauseListener adapter;
 	OnScrollListener listener;
-	private android.support.v7.widget.RecyclerView.OnScrollListener listener2;
+
+	// private android.support.v7.widget.RecyclerView.OnScrollListener
+	// listener2;
 
 	public IPauseOnScroll(IXPauseListener adapter, OnScrollListener listener) {
 		this.adapter = adapter;
 		this.listener = listener;
 	}
 
-	public IPauseOnScroll(IXPauseListener adapter,
-			android.support.v7.widget.RecyclerView.OnScrollListener listener) {
-		this.adapter = adapter;
-		this.listener2 = listener;
-	}
+	// public IPauseOnScroll(IXPauseListener adapter,
+	// android.support.v7.widget.RecyclerView.OnScrollListener listener) {
+	// this.adapter = adapter;
+	// this.listener2 = listener;
+	// }
 
-	@Override
-	public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+	// @Override
+	// public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+	//
+	// super.onScrolled(recyclerView, dx, dy);
+	// if (listener2 != null)
+	// listener2.onScrolled(recyclerView, dx, dy);
+	// }
 
-		super.onScrolled(recyclerView, dx, dy);
-		if (listener2 != null)
-			listener2.onScrolled(recyclerView, dx, dy);
-	}
-
-	@Override
-	public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-		super.onScrollStateChanged(recyclerView, newState);
-		switch (newState) {
-		case OnScrollListener.SCROLL_STATE_IDLE:
-			adapter.onResume();
-			break;
-		case OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-			// adapter.pause();
-			adapter.onResume();
-			break;
-		case OnScrollListener.SCROLL_STATE_FLING:
-			adapter.onPause();
-			break;
-		}
-		if (listener2 != null)
-			listener2.onScrollStateChanged(recyclerView, newState);
-
-	}
+	// @Override
+	// public void onScrollStateChanged(RecyclerView recyclerView, int newState)
+	// {
+	// super.onScrollStateChanged(recyclerView, newState);
+	// switch (newState) {
+	// case OnScrollListener.SCROLL_STATE_IDLE:
+	// adapter.onResume();
+	// break;
+	// case OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+	// // adapter.pause();
+	// adapter.onResume();
+	// break;
+	// case OnScrollListener.SCROLL_STATE_FLING:
+	// adapter.onPause();
+	// break;
+	// }
+	// if (listener2 != null)
+	// listener2.onScrollStateChanged(recyclerView, newState);
+	//
+	// }
 
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem,

@@ -6,11 +6,12 @@ import android.widget.TextView;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.ImageOptions;
+import com.stupid.method.adapter.XRecyclerViewHolder;
 import com.stupid.method.adapter.XViewHolder;
 import com.stupid.method.demo.R;
 import com.stupid.method.demo.bean.Vlist;
 
-public class VlistViewHolder extends XViewHolder<Vlist> {
+public class VlistViewHolder extends XRecyclerViewHolder<Vlist> {
 	public static int type = R.layout.vlist_view_holder;
 	ImageView imageView1;
 	TextView vt, title;

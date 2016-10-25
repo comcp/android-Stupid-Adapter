@@ -6,7 +6,6 @@ import java.lang.reflect.Type;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -241,16 +240,6 @@ abstract public class XViewHolder<T> implements IXViewHolder<T>,
 		mRoot.setTag(tag);
 	}
 
-	ViewHolder v7viewHolder;
-
-	public ViewHolder getViewHolder() {
-		setTag(this);
-		if (v7viewHolder == null)
-			v7viewHolder = new ViewHolder(getView()) {
-			};
-		return v7viewHolder;
-	}
-
 	protected Class<T> getEntityClass() {
 		if (entityClass == null) {
 			ParameterizedType type = (ParameterizedType) getClass()
@@ -263,5 +252,11 @@ abstract public class XViewHolder<T> implements IXViewHolder<T>,
 				Log.w(tag, "无法获得泛型类型");
 		}
 		return entityClass;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%s<%s>->hashCode:%d", getClass().getName(),
+				getEntityClass().getName(), hashCode());
 	}
 }

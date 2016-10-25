@@ -20,7 +20,7 @@ public class XRecylerAdapter<T> extends Adapter<ViewHolder> implements
 		Collection<T>, IXPauseListener {
 	private static final String tag = "XRecylerAdapter";
 	private List<T> mData;
-	Class<? extends XViewHolder<T>> cls;
+	Class<? extends XRecyclerViewHolder<T>> cls;
 	private OnClickItemListener clickItemListener;
 	private boolean onScrolling = false;
 	private IXDataListener onDataChang;
@@ -149,11 +149,12 @@ public class XRecylerAdapter<T> extends Adapter<ViewHolder> implements
 
 	private OnLongClickItemListener longClickItemListener;
 
-	public XRecylerAdapter(Class<? extends XViewHolder<T>> clz, List<T> datas) {
+	public XRecylerAdapter(Class<? extends XRecyclerViewHolder<T>> clz,
+			List<T> datas) {
 		cls = clz;
 		this.mData = datas;
 		if (this.mData == null) {
-			this.mData = new ArrayList<T>();
+			this.mData = new ArrayList<T>(0);
 		}
 
 	}
@@ -166,9 +167,9 @@ public class XRecylerAdapter<T> extends Adapter<ViewHolder> implements
 
 	@Override
 	public void onBindViewHolder(ViewHolder vh, int position) {
-		XViewHolder<T> holder = null;
-		if (vh.itemView.getTag() instanceof XViewHolder) {
-			holder = (XViewHolder<T>) vh.itemView.getTag();
+		XRecyclerViewHolder<T> holder = null;
+		if (vh.itemView.getTag() instanceof XRecyclerViewHolder) {
+			holder = (XRecyclerViewHolder<T>) vh.itemView.getTag();
 			holder.onDestory(position, getItemCount());
 			holder.setView(vh.itemView).getView(mData.get(position), position,
 					isOnScrolling());
@@ -183,18 +184,17 @@ public class XRecylerAdapter<T> extends Adapter<ViewHolder> implements
 
 	}
 
-	public IPauseOnScroll getOnScrollListener(OnScrollListener l) {
-		return new IPauseOnScroll(this, l);
+	public IPauseOnScrollRecycler getOnScrollListener(OnScrollListener l) {
+		return new IPauseOnScrollRecycler(this, l);
 	}
 
 	ViewHolder creatViewHolder(ViewGroup v) {
-
-		XViewHolder<T> holder = null;
+		XRecyclerViewHolder<T> holder = null;
 
 		if (cls != null) {
 
 			try {
-				holder = (XViewHolder<T>) cls.newInstance();
+				holder = (XRecyclerViewHolder<T>) cls.newInstance();
 				holder.setInflater(LayoutInflater.from(v.getContext()));
 				holder.onCreate(v.getContext());
 				holder.setOnClickItemListener(getClickItemListener());
@@ -208,7 +208,7 @@ public class XRecylerAdapter<T> extends Adapter<ViewHolder> implements
 				return holder.getViewHolder();
 
 		} else {
-			Log.e(tag, "没有设置 IXViewHolder ");
+			Log.e(tag, "没有设置 IXRecyclerViewHolder ");
 		}
 		return null;
 
