@@ -74,7 +74,7 @@ public class XAdapter2<T> extends XAdapter<T> implements IXAdapter<T> {
 
 				try {
 					holder = (IXViewHolder<T>) viewBean.newInstance();
-					holder.setInflater(inflater);
+					holder.setInflater(inflater, parent);
 					holder.onCreate(context);
 					holder.setOnClickItemListener(this.clickItemListener);
 					holder.setOnLongClickItemListener(longClickItemListener);
@@ -93,10 +93,11 @@ public class XAdapter2<T> extends XAdapter<T> implements IXAdapter<T> {
 			holder = (IXViewHolder<T>) convertView.getTag();
 			holder.onDestory(position, getCount());
 		}
-		if (holder != null)
+		if (holder != null) {
+			holder.setListSize(getCount());
 			return holder.getView(mData.get(position), position,
 					isOnScrolling());
-		else
+		} else
 			return super.getView(position, convertView, parent);
 	}
 

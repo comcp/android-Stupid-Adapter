@@ -7,5 +7,6 @@
     <string name="title_activity_list_demo">ListDemoActivity</string>
     <string name="title_activity_recyler">RecylerActivity</string>
     <string name="title_activity_list">ListActivity</string>
+    <string name="title_activity_expand_list_view">二级列表</string>
 
 </resources>

@@ -16,13 +16,15 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
 
 	}
 
 	public void onClick(View v) {
 
 		switch (v.getId()) {
+		case R.id.Expandedlistview:
+			startActivity(new Intent(this, ExpandListViewActivity.class));
+			break;
 		case R.id.bton_linnrlayout:
 			startActivity(new Intent(this, RecylerActivity.class));
 			break;

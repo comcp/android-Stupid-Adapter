@@ -195,7 +195,7 @@ public class XRecylerAdapter<T> extends Adapter<ViewHolder> implements
 
 			try {
 				holder = (XRecyclerViewHolder<T>) cls.newInstance();
-				holder.setInflater(LayoutInflater.from(v.getContext()));
+				holder.setInflater(LayoutInflater.from(v.getContext()), v);
 				holder.onCreate(v.getContext());
 				holder.setOnClickItemListener(getClickItemListener());
 				holder.setOnLongClickItemListener(getLongClickItemListener());

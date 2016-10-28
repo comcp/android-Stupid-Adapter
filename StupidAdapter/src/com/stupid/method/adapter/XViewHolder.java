@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 
 /**
  * @说明： 执行顺序 {@link XViewHolder#getLayoutId()}
@@ -43,7 +44,7 @@ abstract public class XViewHolder<T> implements IXViewHolder<T>,
 	private OnClickItemListener itemListener;
 
 	private OnLongClickItemListener longClickItemListener;
-	protected Class<T> entityClass;
+	protected Type entityClass;
 
 	protected T mData;
 
@@ -168,15 +169,14 @@ abstract public class XViewHolder<T> implements IXViewHolder<T>,
 	}
 
 	@Override
-	public View setInflater(LayoutInflater inflater) {
+	public View setInflater(LayoutInflater inflater, ViewGroup parent) {
 		this.inflater = inflater;
 		this.context = inflater.getContext();
 
 		if (mRoot == null)
 			mRoot = getView();// 如果返回不为null,则使用该view
 		if (mRoot == null) {
-
-			mRoot = inflater.inflate(getLayoutId(), null);
+			mRoot = inflater.inflate(getLayoutId(), parent, false);
 			if (mRoot == null) {
 				Log.e(tag,
 						String.format(
@@ -240,14 +240,14 @@ abstract public class XViewHolder<T> implements IXViewHolder<T>,
 		mRoot.setTag(tag);
 	}
 
-	protected Class<T> getEntityClass() {
+	protected Type getEntityClass() {
 		if (entityClass == null) {
 			ParameterizedType type = (ParameterizedType) getClass()
 					.getGenericSuperclass();
 
 			Type[] t = type.getActualTypeArguments();
 			if (t.length > 0)
-				entityClass = (Class<T>) t[0];
+				entityClass = t[0];
 			else
 				Log.w(tag, "无法获得泛型类型");
 		}
@@ -256,7 +256,13 @@ abstract public class XViewHolder<T> implements IXViewHolder<T>,
 
 	@Override
 	public String toString() {
-		return String.format("%s<%s>->hashCode:%d", getClass().getName(),
-				getEntityClass().getName(), hashCode());
+
+		return String.format("%s<%s>->hashCode:%d", getClass().toString(),
+				hashCode());
+	}
+
+	@Override
+	public void setListSize(int size) {
+
 	}
 }

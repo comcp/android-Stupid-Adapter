@@ -117,7 +117,7 @@ public abstract class XAdapter<T> extends BaseAdapter implements Collection<T>,
 		return position;
 	}
 
-	public List<T> getmData() {
+	public List<T> getData() {
 		return mData;
 	}
 
@@ -242,7 +242,7 @@ public abstract class XAdapter<T> extends BaseAdapter implements Collection<T>,
 		this.adapter = adapterInterface;
 	}
 
-	public void setmData(List<T> mData) {
+	public void setData(List<T> mData) {
 		this.mData = mData;
 		this.notifyDataSetChanged();
 	}
